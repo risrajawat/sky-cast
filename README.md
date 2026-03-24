@@ -32,7 +32,7 @@ This project uses the OpenWeatherMap API to fetch real-time weather data.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/skycast-weather-app.git
+   git clone https://github.com/risrajawat/sky-cast.git
    ```
 
 2. Navigate to the project folder:
