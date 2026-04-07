@@ -1,19 +1,47 @@
 import { useState, useEffect } from 'react'
 
 function App() {
-  const [city, setCity] = useState('');
-  const [weatherData, setWeatherData] = useState(null);
+  const [city, setCity] = useState(() => localStorage.getItem('skycast_city') || '');
+  const [weatherData, setWeatherData] = useState(() => {
+    const saved = localStorage.getItem('skycast_weatherData');
+    return saved ? JSON.parse(saved) : null;
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   
   // Milestone 3 Features States
-  const [theme, setTheme] = useState('light');
-  const [favorites, setFavorites] = useState([]);
+  const [theme, setTheme] = useState(() => localStorage.getItem('skycast_theme') || 'light');
+  const [favorites, setFavorites] = useState(() => {
+    const saved = localStorage.getItem('skycast_favorites');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [searchFavorites, setSearchFavorites] = useState('');
-  const [sortOption, setSortOption] = useState('name-asc'); 
+  const [sortOption, setSortOption] = useState(() => localStorage.getItem('skycast_sortOption') || 'name-asc'); 
+
+  // Persist state to localStorage
+  useEffect(() => {
+    localStorage.setItem('skycast_city', city);
+  }, [city]);
+
+  useEffect(() => {
+    if (weatherData) {
+      localStorage.setItem('skycast_weatherData', JSON.stringify(weatherData));
+    } else {
+      localStorage.removeItem('skycast_weatherData');
+    }
+  }, [weatherData]);
+
+  useEffect(() => {
+    localStorage.setItem('skycast_favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
+  useEffect(() => {
+    localStorage.setItem('skycast_sortOption', sortOption);
+  }, [sortOption]);
 
   // Dark / Light Mode Toggle
   useEffect(() => {
+    localStorage.setItem('skycast_theme', theme);
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
