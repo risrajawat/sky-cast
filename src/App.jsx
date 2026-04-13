@@ -91,7 +91,7 @@ function App() {
         name: data.name,
         country: data.sys.country
       });
-      setCity(''); // Clear the input field after successful search
+      setCity('');
     } catch (err) {
       setError(err.message);
     } finally {
